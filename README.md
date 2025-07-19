@@ -13,8 +13,9 @@ Visit the [`shopify.dev` documentation](https://shopify.dev/docs/api/shopify-app
 Before you begin, you'll need the following:
 
 1. **Node.js**: [Download and install](https://nodejs.org/en/download/) it if you haven't already.
-2. **Shopify Partner Account**: [Create an account](https://partners.shopify.com/signup) if you don't have one.
-3. **Test Store**: Set up either a [development store](https://help.shopify.com/en/partners/dashboard/development-stores#create-a-development-store) or a [Shopify Plus sandbox store](https://help.shopify.com/en/partners/dashboard/managing-stores/plus-sandbox-store) for testing your app.
+2. **Pnpm:** [Install pnpm](https://pnpm.io/installation) 
+3. **Shopify Partner Account**: [Create an account](https://partners.shopify.com/signup) if you don't have one.
+4. **Test Store**: Set up either a [development store](https://help.shopify.com/en/partners/dashboard/development-stores#create-a-development-store) or a [Shopify Plus sandbox store](https://help.shopify.com/en/partners/dashboard/managing-stores/plus-sandbox-store) for testing your app.
 
 ### Setup
 
