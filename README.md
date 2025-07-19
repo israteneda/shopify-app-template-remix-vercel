@@ -20,6 +20,12 @@ Before you begin, you'll need the following:
 
 If you used the CLI to create the template, you can skip this section.
 
+Using pnpm:
+
+```shell
+pnpm install
+```
+
 Using yarn:
 
 ```shell
@@ -32,13 +38,13 @@ Using npm:
 npm install
 ```
 
+### Local Development
+
 Using pnpm:
 
 ```shell
-pnpm install
+pnpm run dev
 ```
-
-### Local Development
 
 Using yarn:
 
@@ -50,12 +56,6 @@ Using npm:
 
 ```shell
 npm run dev
-```
-
-Using pnpm:
-
-```shell
-pnpm run dev
 ```
 
 Press P to open the URL to your app. Once you click install, you can start development.
@@ -102,26 +102,30 @@ Please read the [documentation for @shopify/shopify-app-remix](https://www.npmjs
 
 ### Application Storage
 
-This template uses [Prisma](https://www.prisma.io/) to store session data, by default using an [SQLite](https://www.sqlite.org/index.html) database.
-The database is defined as a Prisma schema in `prisma/schema.prisma`.
+This template uses in-memory storage for session data during development. This is suitable for development and testing, but for production you'll want to choose a persistent storage solution.
 
-This use of SQLite works in production if your app runs as a single instance.
-The database that works best for you depends on the data your app needs and how it is queried.
-You can run your database of choice on a server yourself or host it with a SaaS company.
-Here's a short list of databases providers that provide a free tier to get started:
+Here are some session storage options available:
 
-| Database   | Type             | Hosters                                                                                                                                                                                                                               |
-| ---------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MySQL      | SQL              | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-mysql), [Planet Scale](https://planetscale.com/), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/mysql) |
-| PostgreSQL | SQL              | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-postgresql), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/postgres)                                   |
-| Redis      | Key-value        | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-redis), [Amazon MemoryDB](https://aws.amazon.com/memorydb/)                                                                                                        |
-| MongoDB    | NoSQL / Document | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-mongodb), [MongoDB Atlas](https://www.mongodb.com/atlas/database)                                                                                                  |
+| Storage Type | Package | Use Case |
+| ------------ | ------- | -------- |
+| Memory | `@shopify/shopify-app-session-storage-memory` | Development/testing |
+| SQLite | `@shopify/shopify-app-session-storage-sqlite` | Single instance apps |
+| MySQL | `@shopify/shopify-app-session-storage-mysql` | Production SQL databases |
+| PostgreSQL | `@shopify/shopify-app-session-storage-postgresql` | Production SQL databases |
+| Redis | `@shopify/shopify-app-session-storage-redis` | High-performance caching |
+| MongoDB | `@shopify/shopify-app-session-storage-mongodb` | NoSQL databases |
 
-To use one of these, you can use a different [datasource provider](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#datasource) in your `schema.prisma` file, or a different [SessionStorage adapter package](https://github.com/Shopify/shopify-api-js/blob/main/packages/shopify-api/docs/guides/session-storage.md).
+To use a different storage option, install the appropriate package and update the `sessionStorage` configuration in `app/shopify.server.ts`. See the [SessionStorage adapter documentation](https://github.com/Shopify/shopify-api-js/blob/main/packages/shopify-api/docs/guides/session-storage.md) for more details.
 
 ### Build
 
 Remix handles building the app for you, by running the command below with the package manager of your choice:
+
+Using pnpm:
+
+```shell
+pnpm run build
+```
 
 Using yarn:
 
@@ -133,12 +137,6 @@ Using npm:
 
 ```shell
 npm run build
-```
-
-Using pnpm:
-
-```shell
-pnpm run build
 ```
 
 ## Hosting
@@ -173,15 +171,13 @@ export default defineConfig({
 
 ## Troubleshooting
 
-### Database tables don't exist
+### Session storage issues
 
-If you get this error:
+If you encounter session-related errors, ensure that:
 
-```
-The table `main.Session` does not exist in the current database.
-```
-
-You need to create the database for Prisma. Run the `setup` script in `package.json` using your preferred package manager.
+1. The correct session storage package is installed
+2. The session storage is properly configured in `app/shopify.server.ts`
+3. For production deployments, you're using a persistent storage solution rather than memory storage
 
 ### Navigating/redirecting breaks an embedded app
 
@@ -208,6 +204,12 @@ Shopify apps are best when they are embedded in the Shopify Admin, which is how 
 If you change your app's scopes and authentication goes into a loop and fails with a message from Shopify that it tried too many times, you might have forgotten to update your scopes with Shopify.
 To do that, you can run the `deploy` CLI command.
 
+Using pnpm:
+
+```shell
+pnpm run deploy
+```
+
 Using yarn:
 
 ```shell
@@ -218,12 +220,6 @@ Using npm:
 
 ```shell
 npm run deploy
-```
-
-Using pnpm:
-
-```shell
-pnpm run deploy
 ```
 
 ### My shop-specific webhook subscriptions aren't updated
@@ -283,40 +279,35 @@ By default the CLI uses a cloudflare tunnel. Unfortunately it cloudflare tunnels
 
 This will not affect production, since tunnels are only for local development.
 
-### Using MongoDB and Prisma
+### Using Different Session Storage
 
-By default this template uses SQLlite as the database. It is recommended to move to a persisted database for production. If you choose to use MongoDB, you will need to make some modifications to the schema and prisma configuration. For more information please see the [Prisma MongoDB documentation](https://www.prisma.io/docs/orm/overview/databases/mongodb).
+By default this template uses in-memory storage for development. For production, you should choose a persistent storage solution.
 
-Alternatively you can use a MongDB database directly with the [MongoDB session storage adapter](https://github.com/Shopify/shopify-app-js/tree/main/packages/apps/session-storage/shopify-app-session-storage-mongodb).
+#### Using MongoDB
 
-#### Mapping the id field
+To use MongoDB for session storage:
 
-In MongoDB, an ID must be a single field that defines an @id attribute and a @map("\_id") attribute.
-The prisma adapter expects the ID field to be the ID of the session, and not the \_id field of the document.
-
-To make this work you can add a new field to the schema that maps the \_id field to the id field. For more information see the [Prisma documentation](https://www.prisma.io/docs/orm/prisma-schema/data-model/models#defining-an-id-field)
-
-```prisma
-model Session {
-  session_id  String    @id @default(auto()) @map("_id") @db.ObjectId
-  id          String    @unique
-...
-}
+```bash
+pnpm add @shopify/shopify-app-session-storage-mongodb
 ```
 
-#### Error: The "mongodb" provider is not supported with this command
+Then update `app/shopify.server.ts`:
 
-MongoDB does not support the [prisma migrate](https://www.prisma.io/docs/orm/prisma-migrate/understanding-prisma-migrate/overview) command. Instead, you can use the [prisma db push](https://www.prisma.io/docs/orm/reference/prisma-cli-reference#db-push) command and update the `shopify.web.toml` file with the following commands. If you are using MongoDB please see the [Prisma documentation](https://www.prisma.io/docs/orm/overview/databases/mongodb) for more information.
+```js
+import { MongoDBSessionStorage } from "@shopify/shopify-app-session-storage-mongodb";
 
-```toml
-[commands]
-predev = "npx prisma generate && npx prisma db push"
-dev = "npm exec remix vite:dev"
+const shopify = shopifyApp({
+  sessionStorage: MongoDBSessionStorage.withCredentials(
+    "mongodb://localhost:27017",
+    "your-database-name"
+  ),
+  // ...
+});
 ```
 
-#### Prisma needs to perform transactions, which requires your mongodb server to be run as a replica set
+#### Using other storage options
 
-See the [Prisma documentation](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/mongodb/connect-your-database-node-mongodb) for connecting to a MongoDB database.
+Similar patterns apply for other storage types. Install the appropriate package and update the configuration. See the [session storage documentation](https://github.com/Shopify/shopify-app-js/tree/main/packages/apps/session-storage) for all available options.
 
 ### I want to use Polaris v13.0.0 or higher
 

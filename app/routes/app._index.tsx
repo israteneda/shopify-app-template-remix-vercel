@@ -247,15 +247,11 @@ export default function Index() {
                     </InlineStack>
                     <InlineStack align="space-between">
                       <Text as="span" variant="bodyMd">
-                        Database
+                        Session Storage
                       </Text>
-                      <Link
-                        url="https://www.prisma.io/"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        Prisma
-                      </Link>
+                      <Text as="span" variant="bodyMd">
+                        Memory (Dev)
+                      </Text>
                     </InlineStack>
                     <InlineStack align="space-between">
                       <Text as="span" variant="bodyMd">
