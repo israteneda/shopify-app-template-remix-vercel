@@ -20,42 +20,14 @@ Before you begin, you'll need the following:
 
 If you used the CLI to create the template, you can skip this section.
 
-Using pnpm:
-
 ```shell
 pnpm install
 ```
 
-Using yarn:
-
-```shell
-yarn install
-```
-
-Using npm:
-
-```shell
-npm install
-```
-
 ### Local Development
-
-Using pnpm:
 
 ```shell
 pnpm run dev
-```
-
-Using yarn:
-
-```shell
-yarn dev
-```
-
-Using npm:
-
-```shell
-npm run dev
 ```
 
 Press P to open the URL to your app. Once you click install, you can start development.
@@ -119,35 +91,15 @@ To use a different storage option, install the appropriate package and update th
 
 ### Build
 
-Remix handles building the app for you, by running the command below with the package manager of your choice:
-
-Using pnpm:
-
 ```shell
 pnpm run build
 ```
 
-Using yarn:
-
-```shell
-yarn build
-```
-
-Using npm:
-
-```shell
-npm run build
-```
-
 ## Hosting
 
-When you're ready to set up your app in production, you can follow [our deployment documentation](https://shopify.dev/docs/apps/deployment/web) to host your app on a cloud provider like [Heroku](https://www.heroku.com/) or [Fly.io](https://fly.io/).
+You'll want to ensure imports that would normally come from `@remix-run/node` are imported from `@vercel/remix` instead. Learn more about hosting Remix apps on Vercel [here](https://vercel.com/docs/frameworks/remix).
 
 When you reach the step for [setting up environment variables](https://shopify.dev/docs/apps/deployment/web#set-env-vars), you also need to set the variable `NODE_ENV=production`.
-
-### Hosting on Vercel
-
-You'll want to ensure imports that would normally come from `@remix-run/node` are imported from `@vercel/remix` instead. Learn more about hosting Remix apps on Vercel [here](https://vercel.com/docs/frameworks/remix).
 
 ## Troubleshooting
 
@@ -184,29 +136,15 @@ Shopify apps are best when they are embedded in the Shopify Admin, which is how 
 If you change your app's scopes and authentication goes into a loop and fails with a message from Shopify that it tried too many times, you might have forgotten to update your scopes with Shopify.
 To do that, you can run the `deploy` CLI command.
 
-Using pnpm:
-
 ```shell
 pnpm run deploy
-```
-
-Using yarn:
-
-```shell
-yarn deploy
-```
-
-Using npm:
-
-```shell
-npm run deploy
 ```
 
 ### My shop-specific webhook subscriptions aren't updated
 
 If you are registering webhooks in the `afterAuth` hook, using `shopify.registerWebhooks`, you may find that your subscriptions aren't being updated.  
 
-Instead of using the `afterAuth` hook, the recommended approach is to declare app-specific webhooks in the `shopify.app.toml` file.  This approach is easier since Shopify will automatically update changes to webhook subscriptions every time you run `deploy` (e.g: `npm run deploy`).  Please read these guides to understand more:
+Instead of using the `afterAuth` hook, the recommended approach is to declare app-specific webhooks in the `shopify.app.toml` file.  This approach is easier since Shopify will automatically update changes to webhook subscriptions every time you run `deploy` (e.g: `pnpm run deploy`).  Please read these guides to understand more:
 
 1. [app-specific vs shop-specific webhooks](https://shopify.dev/docs/apps/build/webhooks/subscribe#app-specific-subscriptions)
 2. [Create a subscription tutorial](https://shopify.dev/docs/apps/build/webhooks/subscribe/get-started?framework=remix&deliveryMethod=https)
