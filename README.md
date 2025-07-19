@@ -1,6 +1,6 @@
 # Shopify App Template - Remix - Vercel
 
-This is a template for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using the [Remix](https://remix.run) framework.
+This is a template for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using the [Remix](https://remix.run) framework to deploy it to [Vercel](https://vercel.com/).
 
 Rather than cloning this repo, you can use your preferred package manager and the Shopify CLI with [these steps](https://shopify.dev/docs/apps/getting-started/create).
 
@@ -13,7 +13,7 @@ Visit the [`shopify.dev` documentation](https://shopify.dev/docs/api/shopify-app
 Before you begin, you'll need the following:
 
 1. **Node.js**: [Download and install](https://nodejs.org/en/download/) it if you haven't already.
-2. **Pnpm:** [Install pnpm](https://pnpm.io/installation) 
+2. **Pnpm:** [Install pnpm](https://pnpm.io/installation) to manage the packages for the app.
 3. **Shopify Partner Account**: [Create an account](https://partners.shopify.com/signup) if you don't have one.
 4. **Test Store**: Set up either a [development store](https://help.shopify.com/en/partners/dashboard/development-stores#create-a-development-store) or a [Shopify Plus sandbox store](https://help.shopify.com/en/partners/dashboard/managing-stores/plus-sandbox-store) for testing your app.
 
